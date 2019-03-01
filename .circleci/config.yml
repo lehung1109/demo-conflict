@@ -5,6 +5,9 @@ jobs:
       - image: circleci/php
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "aa:7f:aa:b0:f5:53:f3:b1:cc:4d:c4:30:e1:79:30:c9"
       - run:
           name: Login to Staging server & Pull code
           command: ./.circleci/deploy_staging.sh
