@@ -1,8 +1,19 @@
 version: 2
 jobs:
-  build:
-    docker: # use the docker executor type; machine and macos executors are also supported
-      - image: circleci/ruby:2.4.1 # the primary container, where your job's commands are run
+  deploy_staging:
+    docker:
+      - image: circleci/php
     steps:
-      - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+      - checkout
+      - run:
+          name: Login to Staging server & Pull code
+          command: ./.circleci/deploy_staging.sh
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy_staging:
+          filters:
+            branches:
+              only: master
+
